@@ -7,7 +7,11 @@ services:
      - "3000:3000"
     volumes:
      - ./cooking_app:/app
+     - node-modules:/app/node_modules
     environment:
      - WATCHPACK_POLLING=true
     tty: true
-    restart: always
+    stdin_open: true
+volumes:
+  node-modules:
+
