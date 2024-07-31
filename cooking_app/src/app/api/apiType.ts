@@ -1,9 +1,13 @@
-export type SearchGetResponseType = {
+export type RecipesType = {
     id: number,
     title: string,
     time: string,
     cost: string,
     comment: string
+}
+
+export type SearchGetResponseType = {
+    recipes: Array<RecipesType>
 }
 
 export type RecipeGetResponseType = {
@@ -15,11 +19,12 @@ export type RecipeGetResponseType = {
     materials: Array<{
         item: string,
         serving: string,
-        howto: Array<{
-            order: number,
-            text: string
-        }>
     }>
+    howto: Array<{
+        order: number,
+        text: string
+    }>
+    
 }
 
 export type MessagePostRequestType = {
