@@ -18,6 +18,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <header className="flex flex-wrap shadow-sm sm:justify-start sm:flex-nowrap w-full bg-orange-400 text-sm py-3">
+        <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between">
+          <a className="sm:order-1 flex-none text-xl font-semibold text-white focus:outline-none focus:opacity-80" href="/home">コエレシピ</a>
+          <div className="sm:order-3 flex items-center gap-x-2">
+            <a href="/home">
+              <button type="button" className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-white shadow-sm focus:text-gray-50">
+                <svg className="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </button>
+            </a>
+          </div>
+        </nav>
+      </header>
         {children}</body>
       <PrelineScript />
     </html>
