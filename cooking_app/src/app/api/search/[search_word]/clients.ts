@@ -39,7 +39,7 @@ export class RakutenRecipeScraipingSearchClient implements ISearchClient{
                 ids_.add(id)
             })
         })
-        const ids = Array.from(ids_)
+        const ids = Array.from(ids_).slice(0, 6)
         // const res = await fetch(this.base_url + id)
         // const virtualConsole = new jsdom.VirtualConsole();
         // virtualConsole.on("error", () => {});
