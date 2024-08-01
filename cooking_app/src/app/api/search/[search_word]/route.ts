@@ -14,6 +14,5 @@ export async function GET(request: NextRequest, { params }: { params: { search_w
           },
         ]
       }
-
     return NextResponse.json(mock_res)
 }
