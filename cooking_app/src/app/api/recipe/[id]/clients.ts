@@ -1,6 +1,7 @@
 import "server-only"
 import { RecipeGetResponseType } from '../../apiType';
 import jsdom, {JSDOM} from 'jsdom';
+
 export interface IGetClient{
     get(id: string): Promise<RecipeGetResponseType>,
 }
@@ -48,7 +49,6 @@ export class RakutenRecipeScrapingGetClient implements IGetClient{
 
         const materials = new Array<{item: string, serving: string}>()
         materials_.forEach((material)=>{
-            console.log(material.className)
             let item = material.querySelector(".recipe_material__item_name > a")
             if(item === null){
                 item = material.querySelector(".recipe_material__item_name")
