@@ -102,7 +102,7 @@ export class RakutenRecipeScraipingSearchClient implements ISearchClient{
                 if(comment === null){throw new Error("comment not found")}
 
                 return {
-                    id: id,
+                    id: parseInt(id),
                     title: title,
                     time: time,
                     cost: cost,
