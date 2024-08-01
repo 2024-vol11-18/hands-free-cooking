@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// type RecipeHowtoProps = {
-//     order: number;
-//     text: string;
-// }
-
-
 const RecipeHowto = ({ order, text, handlePreviousStep, handleNextStep}) => {
 
     return (
