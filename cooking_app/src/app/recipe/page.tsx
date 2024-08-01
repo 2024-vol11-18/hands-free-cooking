@@ -1,13 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
-export default function Recipe() {
+// データ取得用のフェッチャー関数
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default function Recipe({ id }) {
+    // SWRフックを使って、指定されたレシピIDからデータを取得
+    const { data, error } = useSWR(`/api/recipe/${id}`, fetcher);
+
+    if (error) return <p>データの取得に失敗しました</p>;
+    if (!data) return <p>データを読み込み中...</p>;
+
     return (
-    <>
-        <p>here is /recipe page</p>
-    </>
-    )
+        <div>
+            <h1>{data.title}</h1>
+            <p>{data.description}</p>
+        </div>
+    );
 }
