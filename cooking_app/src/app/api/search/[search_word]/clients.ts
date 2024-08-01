@@ -27,7 +27,7 @@ export class RakutenRecipeScraipingSearchClient implements ISearchClient{
         const recipe_lists = dom.window.document.querySelectorAll(".recipe_ranking__list")
         if(recipe_lists === null){throw new Error("recipe list not found")}
         
-        const ids_ = new Set();
+        const ids_ = new Set<string>();
         recipe_lists.forEach((recipe)=>{
             recipe.querySelectorAll(".recipe_ranking__item").forEach((item)=>{
                 const id_ = item.querySelector("a")
