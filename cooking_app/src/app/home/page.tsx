@@ -26,17 +26,6 @@ export default function Home() {
       setSearchText(event.target.value)
     }
 
-    const SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
-    const recognition = new SpeechRecognition();
-  
-    let cnt = 0;
-    recognition.onresult = (event) => {
-      console.log(event.results[cnt][0].transcript);
-      cnt++;
-    }
-    
-    recognition.start();
-
 
     return (
     <div>
