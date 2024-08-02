@@ -28,5 +28,6 @@ export type RecipeGetResponseType = {
 }
 
 export type MessagePostRequestType = {
-    text: string
+    text: string,
+    past_commands: Array<string>
 }
