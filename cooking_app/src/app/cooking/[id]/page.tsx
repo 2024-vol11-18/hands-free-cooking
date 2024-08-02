@@ -207,11 +207,11 @@ export default function Cooking() {
 
     recognize()
     return (
-        <div className="grid grid-col h-screen grid-rows-[1fr_1fr_auto]">
-            <div className="grid-1 flex items-center justify-center">
+        <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto]">
+            <div className="grid-1 flex justify-center border-b border-gray-300">
                 <RecipeHowto order={order} text={text?text: data.howto[0].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
             </div>
-            <div className="grid-2 flex items-center justify-center">
+            <div className="grid-2 flex items-center justify-center border-b border-gray-300">
                 <RecipeMaterials materials={data?.materials}/>
             </div>
             <div className="grid-3 p-4">
@@ -223,6 +223,7 @@ export default function Cooking() {
                 hours={0}
                 isRunning={true}
                  />
+
             </div>
         </div>
     )
