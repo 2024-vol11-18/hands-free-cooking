@@ -52,8 +52,8 @@ export default function Cooking() {
     let is_speech = false
     let cnt = 0
     const recognize = () => {
-        window.SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition
-        const recognition = new webkitSpeechRecognition()
+        const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition
+        const recognition = new SpeechRecognition()
         recognition.lang = 'ja'
         recognition.continuous = true
 
