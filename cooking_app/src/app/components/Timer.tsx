@@ -8,6 +8,14 @@ const Timer = ({
   minutes,
   seconds,
   isRunning
+}: {
+  handleStart: any,
+  handleStop: any,
+  handleRestart: any,
+  hours: string
+  minutes: string
+  seconds: string
+  isRunning: boolean
 }) => {
     const [timerMinutes, setTimerMinutes] = useState(3)
     return (

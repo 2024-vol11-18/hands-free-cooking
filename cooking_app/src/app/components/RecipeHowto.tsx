@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-const RecipeHowto = ({ order, text, handlePreviousStep, handleNextStep}) => {
+const RecipeHowto = ({
+    order,
+    text,
+    handlePreviousStep,
+    handleNextStep
+}: { 
+    order: number, 
+    text: string,
+    handlePreviousStep: any,
+    handleNextStep: any
+}) => {
 
     return (
         <div className="flex flex-col items-center">

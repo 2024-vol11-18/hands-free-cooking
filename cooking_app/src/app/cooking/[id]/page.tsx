@@ -121,11 +121,6 @@ export default function Cooking() {
                             //タイマーをリスタートする
                             break;
                         */
-                        /*
-                        case "timer_close":
-                            //タイマーを閉じてレシピに戻る
-                            break;
-                        */
                         case "no_action":
                             console.log("no_action")
                             //ノーアクション
