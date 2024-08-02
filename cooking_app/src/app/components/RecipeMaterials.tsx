@@ -16,7 +16,7 @@ const RecipeMaterials = ({ materials }: {
                             <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                                     {materials?.map((material: { item: string, serving: string }, index: number) => (
-                                        <tr>
+                                        <tr key={index}>
                                             <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
                                                 {material.item}
                                             </td>
