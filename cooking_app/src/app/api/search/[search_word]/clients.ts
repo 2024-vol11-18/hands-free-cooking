@@ -40,36 +40,7 @@ export class RakutenRecipeScraipingSearchClient implements ISearchClient{
             })
         })
         const ids = Array.from(ids_).slice(0, 6)
-        // const res = await fetch(this.base_url + id)
-        // const virtualConsole = new jsdom.VirtualConsole();
-        // virtualConsole.on("error", () => {});
-        // const dom = new JSDOM(await res.text(),{virtualConsole})
-
-        // const title_ = dom.window.document.querySelector(".page_title__text")
-        // if(title_ === null){throw new Error("title not found")}
-        // const title = title_.textContent
-        // if(title === null){throw new Error("title not found")}
-
-        // const time_ = dom.window.document.querySelector(".recipe_info__time")
-        // if(time_ === null){throw new Error("time not found")}
-        // let time = time_.textContent
-        // if(time === null){throw new Error("time not found")}
-        // time = deleteSpaceAndNewLine(time)
-
-        // const cost_ = dom.window.document.querySelector(".recipe_info__cost")
-        // if(cost_ === null){throw new Error("cost not found")}
-        // let cost = cost_.textContent
-        // if(cost === null){throw new Error("cost not found")}
-        // cost = deleteSpaceAndNewLine(cost)
-
-
-        // const comment_ = dom.window.document.querySelector(".recipe_info_user__comment")
-        // if(comment_ === null){throw new Error("comment not found")}
-        // const comment = comment_.textContent
-        // if(comment === null){throw new Error("comment not found")}
-
-        // const materials_ = dom.window.document.querySelectorAll(".recipe_material__list > li")
-        // if(materials_ === null){throw new Error("materials not found")}
+        
         const settled_res = await Promise.allSettled(ids.map((id)=>{
             return fetch(this.recipe_url + id)
             .then((res)=>{
