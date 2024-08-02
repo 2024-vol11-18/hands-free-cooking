@@ -12,9 +12,9 @@ const Timer = ({
   handleStart: any,
   handleStop: any,
   handleRestart: any,
-  hours: string
-  minutes: string
-  seconds: string
+  hours: number
+  minutes: number
+  seconds: number
   isRunning: boolean
 }) => {
     const [timerMinutes, setTimerMinutes] = useState(3)
