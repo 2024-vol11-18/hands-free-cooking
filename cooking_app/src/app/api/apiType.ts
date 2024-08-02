@@ -15,7 +15,7 @@ export type RecipeGetResponseType = {
     title: string,
     time: string,
     cost: string,
-    comment: string
+    comment: string,
     materials: Array<{
         item: string,
         serving: string,

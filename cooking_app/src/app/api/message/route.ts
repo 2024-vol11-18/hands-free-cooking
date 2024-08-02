@@ -1,40 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MessagePostRequestType } from '../apiType';
-import { GetOpenAIClient, CreateChatCompletion } from '../openai';
+import { GetOpenAIClient, CreateChatCompletion } from '../createChat';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
 
-    const body: MessagePostRequestType = await request.json()
-    //TODO: OpenAIクライアントをstaticに保持する？tokenの期限が切れた時だけ更新
-    const openai = await GetOpenAIClient()
-    const prompt = `
-    あなたは与えられたテキストが期待している行動を答えるAIです．
-    あなたにテキストを送るのは，調理中の人間です．
-    行動は次で定義する11個の行動から選びなさい．
-    行動は 「キーワード：説明」 で表される．
-    materials: 材料を読み上げる,
-    next_step: 次の工程を読み上げる,
-    previous_step: 前の工程を読み上げる,
-    read_again: 現在の工程を再度読み上げる,
-    timer_open: タイマーを起動する,
-    set_time_?_min: タイマーをセットする（？は数値）,
-    timer_start: タイマーをスタートする,
-    timer_stop: タイマーをストップする,
-    timer_restart: タイマーをリスタートする,
-    timer_close: タイマーを停止する,
-    no_action: 何もしない
-    あなたに送られたテキストは「${body.text}」です．
-    あなたは行動を示す「キーワード」のみを回答しなさい．
-    `
+    const isDebug = process.env.DEBUG
+    if (isDebug === "false") {
+        const body: MessagePostRequestType = await request.json()
+        //TODO: OpenAIクライアントをstaticに保持する？tokenの期限が切れた時だけ更新
+        const openai = await GetOpenAIClient()
+        const prompt = `
+        あなたは与えられたテキストが期待している行動を答えるAIです．
+        あなたにテキストを送るのは，調理中の人間です．
+        行動は次で定義する11個の行動から選びなさい．
+        行動は 「キーワード：説明」 で表される．
+        materials: 材料を読み上げる,
+        next_step: 次の工程を読み上げる,
+        previous_step: 前の工程を読み上げる,
+        read_again: 現在の工程を再度読み上げる,
+        timer_open: タイマーを起動する,
+        set_time_?_min: タイマーをセットする（？は数値）,
+        timer_start: タイマーをスタートする,
+        timer_stop: タイマーをストップする,
+        timer_restart: タイマーをリスタートする,
+        timer_close: タイマーを停止する,
+        no_action: 何もしない
+        あなたに送られたテキストは「${body.text}」です．
+        あなたは行動を示す「キーワード」のみを回答しなさい．
+        `
 
-    const response = (await CreateChatCompletion(openai, prompt, {max_tokens : 5})).choices[0].message.content
-    if (response == undefined) {
-        return NextResponse.json({error: "response is undefined"}, {status: 500})
-    }else{
-        if (!validateResponse(response)) {
-            return NextResponse.json({error: "response is invalid"}, {status: 500})
+        const response = (await CreateChatCompletion(openai, prompt, {max_tokens : 5})).choices[0].message.content
+        if (response == undefined) {
+            return NextResponse.json({error: "response is undefined"}, {status: 500})
+        }   else    {
+            if (!validateResponse(response)) {
+                return NextResponse.json({error: "response is invalid"}, {status: 500})
+            }
+            return NextResponse.json({command: response}, {status: response == "no_action" ? 204 : 200})   
         }
-        return NextResponse.json({command: response}, {status: response == "no_action" ? 204 : 200})   
+    } else {
+        //mock
+        return NextResponse.json({command: "materials"}, { status: 200 }) 
     }
 }
 
