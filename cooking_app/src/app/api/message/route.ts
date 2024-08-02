@@ -5,7 +5,9 @@ import { GetOpenAIClient, CreateChatCompletion } from '../createChat';
 export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const isDebug = process.env.DEBUG
+    console.log(isDebug)
     if (isDebug === "false") {
+        console.log(isDebug)
         const body: MessagePostRequestType = await request.json()
         //TODO: OpenAIクライアントをstaticに保持する？tokenの期限が切れた時だけ更新
         const openai = await GetOpenAIClient()
@@ -18,12 +20,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         next_step: 次の工程を読み上げる,
         previous_step: 前の工程を読み上げる,
         read_again: 現在の工程を再度読み上げる,
-        timer_open: タイマーを起動する,
         set_time_?_min: タイマーをセットする（？は数値）,
-        timer_start: タイマーをスタートする,
         timer_stop: タイマーをストップする,
         timer_restart: タイマーをリスタートする,
-        timer_close: タイマーを停止する,
         no_action: 何もしない
         あなたに送られたテキストは「${body.text}」です．
         あなたは行動を示す「キーワード」のみを回答しなさい．
@@ -40,7 +39,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
     } else {
         //mock
-        return NextResponse.json({command: "materials"}, { status: 200 }) 
+        return NextResponse.json({command: "set_time_3_min"}, { status: 200 }) 
     }
 }
 

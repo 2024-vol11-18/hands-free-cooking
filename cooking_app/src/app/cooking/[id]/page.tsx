@@ -8,6 +8,7 @@ import RecipeMaterials from '@/app/components/RecipeMaterials';
 import { MessagePostRequestType } from '../../api/apiType';
 import { useParams } from 'next/navigation';
 import { useTimer } from 'react-timer-hook';
+import { setDefaultHighWaterMark } from 'stream';
 
 
 const postText = async (url: string, { arg }: { arg: MessagePostRequestType}) => {
@@ -27,7 +28,12 @@ const fetcher = async (url: string) => {
 export default function Cooking() {
     const [order, setOrder] = useState(1);
     const [text, setText] = useState("");
+    const [time, setTime] = useState(0);
+    const [isRestart, setIsRestart] = useState(false);
+    const [isRunning, setIsRunning] = useState(false);
+    const intervalRef = useRef<NodeJS.Timeout>();
     const expiryTimestamp = new Date();
+    /*
     const {
         seconds,
         minutes,
@@ -42,12 +48,20 @@ export default function Cooking() {
         expiryTimestamp,
         onExpire: () => console.warn('onExpired called')
     })
+    */
+    useEffect(() => {
+        if (isRestart) {
+            recognize(),
+            handleRestart(time)
+            setIsRestart(false)
+        }
+    }, [isRestart])
     const {trigger, isMutating } = useSWRMutation("/api/message", postText)
     const {data, error, isLoading} = useSWR(`/api/recipe/${useParams().id}`, fetcher)
     if (error) return <div>Error</div>
     if (isLoading) return <div>isLoading...</div>
 
-  
+
     //音声認識処理
     let is_speech = false
     let cnt = 0
@@ -128,9 +142,9 @@ export default function Cooking() {
                         default:
                             console.log("set_time")
                             //タイマーの時間をセットする
-                            const setMinutes = res["command"].match(/[0-9]/g)
-                            handleRestart(setMinutes)
-                            handleRestart(3)
+                            const setMinutes = Number(res["command"].match(/[0-9]/g))
+                            setTime(setMinutes)
+                            setIsRestart(true)
                             break;
                     }
                     cnt = 0
@@ -168,18 +182,27 @@ export default function Cooking() {
     }
 
     //タイマー系の処理
-    const handleStart = () => {
-        start()
+    const handleStart = async () => {
+        setIsRunning(true);
+        intervalRef.current = setInterval(() => {
+            setTime(prevTime => prevTime -1);
+        }, 1000);
     }
 
     const handleStop = () => {
-        pause()
+        clearInterval(intervalRef.current);
+        setIsRunning(false);
     }
 
     const handleRestart = (minutes: number) => {
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + minutes*60);
-        restart(time);
+        setTime(180)
+        setIsRunning(true);
+        intervalRef.current = setInterval(() => {
+            setTime(prevTime => prevTime -1);
+            if (time === 0) {
+                handleStop()
+            }
+        }, 1000);
     }
 
     recognize()
@@ -195,10 +218,10 @@ export default function Cooking() {
                 <Timer handleStart={handleStart}
                 handleStop={handleStop}
                 handleRestart={handleRestart}
-                seconds={seconds}
-                minutes={minutes}
-                hours={hours}
-                isRunning={isRunning}
+                seconds={time}
+                minutes={0}
+                hours={0}
+                isRunning={true}
                  />
             </div>
         </div>
