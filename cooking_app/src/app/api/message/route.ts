@@ -37,7 +37,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
     } else {
         //mock
-        return NextResponse.json({command: "set_time_3_min"}, { status: 200 }) 
+        return NextResponse.json({command: "previous_step"}, { status: 200 }) 
     }
 }
 
