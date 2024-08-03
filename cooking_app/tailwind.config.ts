@@ -10,6 +10,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        babypowder: '#FCFBF5',
+        cornsilk: '#FDF8E1',
+        peach: '#FFE5BA',     // xanthousの薄いやつ
+        xanthous: '#FFC971',
+        xanthoussaturated: '#FFBA4A',   // xanthousの濃いやつ
+        selectiveyellow: '#FFB600',
+        harverstgold: '#E8A600',
+        princetonorange: '#FF9505',
+        orangewheel: '#FF7E05',  // princetonorangeの濃いやつ
+        smokyblack: '#211400'
+      }
     },
   },
   plugins: [
