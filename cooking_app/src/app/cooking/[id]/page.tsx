@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef, useState } from 'react';
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -34,94 +35,135 @@ export default function Cooking() {
     const cntRef = useRef(0)
     const [isRunning, setIsRunning] = useState(false)
 
-    //音声認識処理
-    const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition
-    const recognition = new SpeechRecognition()
-    recognition.lang = 'ja'
-    recognition.continuous = true
-
-    recognition.onerror = function () {
-        cntRef.current = 0
-        if (!isSpeechRef.current) asyncRecog()
-    }
-    recognition.onsoundend = function () {
-        cntRef.current = 0
-        asyncRecog()
+    //音声読み上げる処理
+    const handleReadText = (text: string) => {
+        const uttr = new SpeechSynthesisUtterance(text)
+        speechSynthesis.speak(uttr)
     }
 
-    recognition.onresult = async (event) => {
-        const recogText = event.results[cntRef.current][0].transcript;
-        console.log("認識された文字: " + recogText)
-
-        if (event.results[cntRef.current].isFinal && (event.results[cntRef.current][0].confidence > 0.8)) {
-            const res = await trigger({ text: recogText })
-
-            switch (res["command"]) {
-                case "materials":
-                    //材料を読み上げる処理
-                    console.log("materials")
-                    handleReadText("材料を読み上げます")
-                    for (let j = 0; j < data.materials.length; j++) {
-                        handleReadText(data.materials[j].item)
-                        handleReadText(data.materials[j].serving)
-                    }
-                    break;
-                case "next_step":
-                    console.log("next_step")
-                    //次の工程に進んでその工程を読み上げる処理
-                    if (order < data.howto.length) {
-                        handleReadText("次の工程に進んで工程を読み上げます")
-                        handleNextStep()
-                        handleReadText(text)
-                    }
-                    break;
-                case "previous_step":
-                    console.log("previous_step")
-                    //前の工程に戻ってその工程を読み上げる処理
-                    if (order > 1) {
-                        handleReadText("前の工程に戻って工程を読み上げます")
-                        handlePreviousStep()
-                        handleReadText(text)
-                    }
-                    break;
-                case "read_agin":
-                    console.log("read_agin")
-                    //現在の工程をもう一度読み上げる処理
-                    handleReadText("現在の工程を読み上げます")
-                    handleReadText(text)
-                    break;
-                case "timer_stop":
-                    console.log("timer_stop")
-                    //タイマーをストップする
-                    handleStop()
-                    handleReadText("タイマーを停止します")
-                    break;
-                case "timer_restart":
-                    handleStart()
-                    handleReadText("タイマーを再開します")
-                    break;
-                case "no_action":
-                    console.log("no_action")
-                    //ノーアクション
-                    break;
-                default:
-                    console.log("set_time")
-                    //タイマーの時間をセットする
-                    const setMinutes = Number(res["command"].match(/[0-9]/g))
-                    timeRef.current = setMinutes
-                    setIsRestart(true)
-                    handleReadText("タイマー" + setMinutes + "分セットします")
-                    break;
-            }
-            cntRef.current = 0
-            asyncRecog()
-        } else {
-            cntRef.current++
-            isSpeechRef.current = true;
+    //レシピステップ系の処理
+    const handlePreviousStep = () => {
+        if (order > 1) {
+            setOrder((order) => order - 1)
+            setText(data.howto[order - 1].text)
         }
     }
 
+    const handleNextStep = () => {
+        if (order < data.howto.length) {
+            setOrder((order) => order + 1)
+            setText(data.howto[order - 1].text)
+        }
+    }
+
+    //タイマー系の処理
+    const handleStart = async () => {
+        clearInterval(intervalRef.current)
+        setIsRunning(true);
+        intervalRef.current = setInterval(() => {
+            setSeconds(preSeconds => preSeconds - 1);
+        }, 1000);
+    }
+    const handleStop = () => {
+        clearInterval(intervalRef.current)
+        setIsRunning(false)
+    }
+    const handleRestart = async (minutes: number) => {
+        clearInterval(intervalRef.current)
+        setSeconds(minutes * 60)
+        setIsRunning(true);
+        intervalRef.current = setInterval(() => {
+            setSeconds(preSeconds => preSeconds - 1);
+        }, 1000);
+    }
+
+    //音声認識処理
     const recognize = async () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition()
+        recognition.lang = 'ja'
+        recognition.continuous = true
+    
+        recognition.onerror = function () {
+            cntRef.current = 0
+            if (!isSpeechRef.current) asyncRecog()
+        }
+        recognition.onsoundend = function () {
+            cntRef.current = 0
+            asyncRecog()
+        }
+    
+        recognition.onresult = async (event) => {
+            const recogText = event.results[cntRef.current][0].transcript;
+            console.log("認識された文字: " + recogText)
+    
+            if (event.results[cntRef.current].isFinal && (event.results[cntRef.current][0].confidence > 0.8)) {
+                const res = await trigger({ text: recogText })
+    
+                switch (res["command"]) {
+                    case "materials":
+                        //材料を読み上げる処理
+                        console.log("materials")
+                        handleReadText("材料を読み上げます")
+                        for (let j = 0; j < data.materials.length; j++) {
+                            handleReadText(data.materials[j].item)
+                            handleReadText(data.materials[j].serving)
+                        }
+                        break;
+                    case "next_step":
+                        console.log("next_step")
+                        //次の工程に進んでその工程を読み上げる処理
+                        if (order < data.howto.length) {
+                            handleReadText("次の工程に進んで工程を読み上げます")
+                            handleNextStep()
+                            handleReadText(text)
+                        }
+                        break;
+                    case "previous_step":
+                        console.log("previous_step")
+                        //前の工程に戻ってその工程を読み上げる処理
+                        if (order > 1) {
+                            handleReadText("前の工程に戻って工程を読み上げます")
+                            handlePreviousStep()
+                            handleReadText(text)
+                        }
+                        break;
+                    case "read_agin":
+                        console.log("read_agin")
+                        //現在の工程をもう一度読み上げる処理
+                        handleReadText("現在の工程を読み上げます")
+                        handleReadText(text)
+                        break;
+                    case "timer_stop":
+                        console.log("timer_stop")
+                        //タイマーをストップする
+                        handleStop()
+                        handleReadText("タイマーを停止します")
+                        break;
+                    case "timer_restart":
+                        handleStart()
+                        handleReadText("タイマーを再開します")
+                        break;
+                    case "no_action":
+                        console.log("no_action")
+                        //ノーアクション
+                        break;
+                    default:
+                        console.log("set_time")
+                        //タイマーの時間をセットする
+                        const setMinutes = Number(res["command"].match(/[0-9]/g))
+                        timeRef.current = setMinutes
+                        setIsRestart(true)
+                        handleReadText("タイマー" + setMinutes + "分セットします")
+                        break;
+                }
+                cntRef.current = 0
+                asyncRecog()
+            } else {
+                cntRef.current++
+                isSpeechRef.current = true;
+            }
+        }
         isSpeechRef.current = false;
         recognition.start();
     }
@@ -149,51 +191,6 @@ export default function Cooking() {
     const { data, error, isLoading } = useSWR(`/api/recipe/${useParams().id}`, fetcher)
     if (error) return <div>Error</div>
     if (isLoading) return <div>isLoading...</div>
-
-
-    //音声読み上げる処理
-    const handleReadText = (text: string) => {
-        const uttr = new SpeechSynthesisUtterance(text)
-        speechSynthesis.speak(uttr)
-    }
-
-    //レシピステップ系の処理
-    const howtoSize: number = data.howto.length
-
-    const handlePreviousStep = () => {
-        if (order > 1) {
-            setOrder((order) => order - 1)
-            setText(data.howto[order - 1].text)
-        }
-    }
-
-    const handleNextStep = () => {
-        if (order < howtoSize) {
-            setOrder((order) => order + 1)
-            setText(data.howto[order - 1].text)
-        }
-    }
-
-    //タイマー系の処理
-    const handleStart = async () => {
-        clearInterval(intervalRef.current)
-        setIsRunning(true);
-        intervalRef.current = setInterval(() => {
-            setSeconds(preSeconds => preSeconds - 1);
-        }, 1000);
-    }
-    const handleStop = () => {
-        clearInterval(intervalRef.current)
-        setIsRunning(false)
-    }
-    const handleRestart = async (minutes: number) => {
-        clearInterval(intervalRef.current)
-        setSeconds(minutes * 60)
-        setIsRunning(true);
-        intervalRef.current = setInterval(() => {
-            setSeconds(preSeconds => preSeconds - 1);
-        }, 1000);
-    }
 
     if ((seconds === 0) && isRunning) {
         //タイマー終了
