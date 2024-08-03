@@ -9,11 +9,11 @@ const RecipeMaterials = ({ materials }: {
 }) => {
     return (
         <div className="w-full">
-            <div className="flex flex-col max-h-[270px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-xanthous [&::-webkit-scrollbar-thumb]:bg-xanthoussaturated">
+            <div className="flex flex-col">
                 <div className="m-5">
-                    <div className="p-2 min-w-full inline-block align-middle rounded-xl bg-babypowder">
-                        <div className="overflow-hidden">
-                            <table className="w-full min-w-full divide-y devide-princetonorangej">
+                    <div className="p-2 min-w-full inline-block align-middle rounded-xl overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-xanthous [&::-webkit-scrollbar-thumb]:bg-xanthoussaturated bg-babypowder">
+                        <div>
+                            <table className="w-full min-w-full divide-y devide-princetonorange">
                                 <tbody className="divide-y divide-princetonorange">
                                     {materials?.map((material: { item: string, serving: string }, index: number) => (
                                         <tr key={index}>
