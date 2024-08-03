@@ -182,13 +182,13 @@ export default function Cooking() {
         restart(time);
     }
 
-    recognize()
+    // recognize()
     return (
-        <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto]">
-            <div className="grid-1 flex justify-center border-b border-gray-300">
-                <RecipeHowto order={order} text={text?text: data.howto[0].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
+        <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto] bg-cornsilk">
+            <div className="grid-1 flex justify-center border-b border-xanthous">
+                <RecipeHowto howtoSize={howtoSize} order={order} text={text?text: data.howto[0].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
             </div>
-            <div className="grid-2 flex items-center justify-center border-b border-gray-300">
+            <div className="grid-2 flex items-center justify-center border-b border-xanthous">
                 <RecipeMaterials materials={data?.materials}/>
             </div>
             <div className="grid-3 p-4">
