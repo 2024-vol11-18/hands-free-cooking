@@ -136,8 +136,8 @@ export default function Cooking() {
                             handleReadText(dataRef.current.howto[orderRef.current-1].text)
                         }
                         break;
-                    case "read_agin":
-                        console.log("read_agin")
+                    case "read_again":
+                        console.log("read_again")
                         //現在の工程をもう一度読み上げる処理
                         handleReadText("現在の工程を読み上げます")
                         handleReadText(dataRef.current.howto[orderRef.current-1].text)
