@@ -56,8 +56,9 @@ export default function Home() {
           </form>
         </div>
       </div>
-
+    
       <RecipeList  recipe_data={recipeData}/>
+      <div class="h-0.5"></div>
     </div>
     )
 }
