@@ -16,7 +16,7 @@ const RecipeHowtoStepper = ({
         <div dataHsStepper={`{ "currentIndex": ${order} }`}>
             <ul className="relative flex flex-row gap-x-2">
               {completedOrders.map((completedOrder, index) => (
-                <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group success" dataHsStepperNavItem={`{ "index": ${index}, "isCompleted": true }`}>
+                <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group success" dataHsStepperNavItem={`{ "index": ${index}, "isCompleted": true }`} key={index}>
                   <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
                     <span className="size-7 flex justify-center items-center shrink-0 bg-peach font-medium text-babypowder rounded-full hs-stepper-active:bg-xanthoussaturated hs-stepper-active:text-babypowder hs-stepper-success:bg-xanthous hs-stepper-success:text-babypowder hs-stepper-completed:bg-xanthous">
                       <span className="hs-stepper-success:hidden hs-stepper-completed:hidden">{completedOrder}</span>
@@ -30,7 +30,7 @@ const RecipeHowtoStepper = ({
               ))}
               
           
-              <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group active" dataHsStepperNavItem={`{ "index": ${order} }`}>
+              <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group active" dataHsStepperNavItem={`{ "index": ${order} }`} key={}>
                 <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
                   <span className="size-7 flex justify-center items-center shrink-0 bg-peach font-medium text-babypowder rounded-full hs-stepper-active:bg-xanthoussaturated hs-stepper-active:text-babypowder hs-stepper-success:bg-xanthous hs-stepper-success:text-babypowder hs-stepper-completed:bg-xanthous">
                     <span className="hs-stepper-success:hidden hs-stepper-completed:hidden">{order}</span>
