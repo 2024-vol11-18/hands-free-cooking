@@ -11,8 +11,8 @@ const RecipeMaterials = ({ materials }: {
         <div className="w-full">
             <div className="flex flex-col">
                 <div className="m-5">
-                    <div className="p-2 min-w-full inline-block align-middle rounded-xl overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-xanthous [&::-webkit-scrollbar-thumb]:bg-xanthoussaturated bg-babypowder">
-                        <div>
+                    <div className="p-2 min-w-full inline-block align-middle rounded-xl">
+                        <div className="max-h-[250px] overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-xanthous [&::-webkit-scrollbar-thumb]:bg-xanthoussaturated bg-babypowder">
                             <table className="w-full min-w-full divide-y devide-princetonorange">
                                 <tbody className="divide-y divide-princetonorange">
                                     {materials?.map((material: { item: string, serving: string }, index: number) => (
