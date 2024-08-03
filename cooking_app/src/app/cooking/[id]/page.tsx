@@ -29,12 +29,12 @@ export default function Cooking() {
     const orderRef = useRef(1)
     const [isRestart, setIsRestart] = useState(false);
     const [seconds, setSeconds] = useState(0)
+    const [isRunning, setIsRunning] = useState(false)
     const intervalRef = useRef<NodeJS.Timeout>();
     const timeRef = useRef(0);
     const isSpeechRef = useRef(false)
     const cntRef = useRef(0)
     const dataRef = useRef<RecipeGetResponseType>()
-    const [isRunning, setIsRunning] = useState(false)
     const { trigger, isMutating } = useSWRMutation("/api/message", postText)
     const { data, error, isLoading } = useSWR(`/api/recipe/${useParams().id}`, fetcher)
 
@@ -54,6 +54,7 @@ export default function Cooking() {
     }
 
     const handleNextStep = () => {
+        if(!dataRef.current) throw new Error("data not found.")
         if (orderRef.current < dataRef.current.howto.length) {
             orderRef.current++
             setOrder(orderRef.current)
@@ -98,6 +99,7 @@ export default function Cooking() {
         }
     
         recognition.onresult = async (event) => {
+            if(!dataRef.current) throw new Error("data not found.")
             const recogText = event.results[cntRef.current][0].transcript;
             console.log("認識された文字: " + recogText)
     
@@ -192,18 +194,17 @@ export default function Cooking() {
         asyncRecog()
     }, [])
 
-
     if ((seconds === 0) && isRunning) {
         //タイマー終了
         handleStop()
         handleReadText("タイマー終了しました")
     }
-    if (error) return <div>Error</div>
     if (isLoading) {
         return <div>isLoading...</div>
     } else {
         dataRef.current = data
     }
+    if (error) return <div>Error</div>
     return (
         <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto]">
             <div className="grid-1 flex justify-center border-b border-gray-300">
