@@ -31,7 +31,7 @@ export default function Recipe() {
 
     return (
         <div>
-            <h1>{data.title}</h1>
+            <h1 className="">{data.title}</h1>
             <p>{data.description}</p>
             <p>{data.time}</p>
             <p>{data.cost}</p>
