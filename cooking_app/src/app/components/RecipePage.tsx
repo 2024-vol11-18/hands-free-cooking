@@ -14,44 +14,50 @@ const RecipePage = ({ materials , howto }: {
     }>
 }) => {
     return (
-        <div className="flex flex-col">
-                <div className="-m-1.5 overflow-x-auto">
-                    <div className="p-1.5 min-w-full inline-block align-middle">
-                        <div className="border rounded-lg shadow overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
-                                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                                    {materials?.map((material: { item: string, serving: string }, index: number) => (
-                                        <tr key={index}>
-                                            <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                {material.item}
-                                            </td>
-                                            <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
-                                                {material.serving}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="border rounded-lg shadow overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
-                                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-                                    {howto?.map((howto: { order: number; text: string }, index: number) => (
-                                        <tr key={index}>
-                                            <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                {index + 1}
-                                            </td>
-                                            <td className="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                                {howto.text}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+        <div className="p-1.5 align-middle text-smokyblack min-w-full">
+            <div className="w-full">
+                <div className="flex flex-col">
+                    <div className="m-5">
+                        <div className="p-2 min-w-full inline-block align-middle rounded-xl">
+                            <div className="max-h-[250px] overflow-x-hidden overflow-y-auto bg-xanthoussaturated bg-babypowder">
+                                <table className="w-full min-w-full divide-y devide-princetonorange">
+                                    <tbody className="divide-y divide-princetonorange">
+                                        {materials?.map((material: { item: string, serving: string }, index: number) => (
+                                            <tr key={index}>
+                                                <td className="px-6 py-2 whitespace-normal break-words text-sm font-medium text-smokyblack">
+                                                    {material.item}
+                                                </td>
+                                                <td className="px-6 py-2 whitespace-normal break-words text-sm text-smokyblack">
+                                                    {material.serving}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
+            
+            <div className="">作り方</div>
+            <div className="">
+                <table className="w-full divide-y divide-gray-200">
+                    <tbody className="divide-y divide-gray-200">
+                        {howto?.map((howto: { order: number; text: string }, index: number) => (
+                            <tr key={index}>
+                                <td className="px-6 py-2 whitespace-nowrap break-words text-sm font-medium">
+                                    {index + 1}
+                                </td>
+                                <td className="px-6 py-2 whitespace-nowrap break-words text-sm font-medium">
+                                    {howto.text}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>                                                       
+            </div>
+        </div>
     )
 }
 
