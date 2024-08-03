@@ -6,7 +6,7 @@ import { RecipesType } from "../api/apiType";
 export default function RecipeComponent({ recipe }: {recipe: RecipesType}) {
     return (
         <>
-            <div className="m-8 flex flex-col bg-white border shadow-sm rounded-xl dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
+            <div className="m-8 flex flex-col bg-white border shadow-sm rounded-xl">
                 <div className="p-4 md:p-10">
                     <h3 className="text-lg font-bold text-gray-800 dark:text-white">
                     {recipe.title}

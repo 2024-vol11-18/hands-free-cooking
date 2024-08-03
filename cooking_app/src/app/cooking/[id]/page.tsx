@@ -45,7 +45,16 @@ export default function Cooking() {
     const {trigger, isMutating } = useSWRMutation("/api/message", postText)
     const {data, error, isLoading} = useSWR(`/api/recipe/${useParams().id}`, fetcher)
     if (error) return <div>Error</div>
-    if (isLoading) return <div>isLoading...</div>
+    if (isLoading) {
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen">
+                <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                <p className="mt-2 text-cyan-500 dark:text-cyan-300">Loading...</p>
+            </div>
+        )
+    }
 
   
     //音声認識処理
