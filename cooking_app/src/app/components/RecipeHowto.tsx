@@ -11,8 +11,8 @@ const RecipeHowto = ({
     howtoSize: number,
     order: number,
     text: string,
-    handlePreviousStep: any,
-    handleNextStep: any
+    handlePreviousStep?: any,
+    handleNextStep?: any
 }) => {
 
     return (

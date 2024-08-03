@@ -1,19 +1,19 @@
 "use client";
+
 import { useEffect, useRef, useState } from 'react';
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import Timer from '@/app/components/Timer';
 import RecipeHowto from '@/app/components/RecipeHowto';
 import RecipeMaterials from '@/app/components/RecipeMaterials';
-import { MessagePostRequestType } from '../../api/apiType';
+import { MessagePostRequestType, RecipeGetResponseType } from '../../api/apiType';
 import { useParams } from 'next/navigation';
-import { useTimer } from 'react-timer-hook';
 
 
-const postText = async (url: string, { arg }: { arg: MessagePostRequestType}) => {
+const postText = async (url: string, { arg }: { arg: MessagePostRequestType }) => {
     const res = await fetch(url, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(arg)
     })
     return res.json()
@@ -26,123 +26,18 @@ const fetcher = async (url: string) => {
 
 export default function Cooking() {
     const [order, setOrder] = useState(1);
-    const [text, setText] = useState("");
-    const expiryTimestamp = new Date();
-    const {
-        seconds,
-        minutes,
-        hours,
-        days,
-        isRunning,
-        start,
-        pause,
-        resume,
-        restart,
-    } = useTimer({
-        expiryTimestamp,
-        onExpire: () => console.warn('onExpired called')
-    })
-    const {trigger, isMutating } = useSWRMutation("/api/message", postText)
-    const {data, error, isLoading} = useSWR(`/api/recipe/${useParams().id}`, fetcher)
-    if (error) return <div>Error</div>
-    if (isLoading) return <div>isLoading...</div>
+    const orderRef = useRef(1)
+    const [isRestart, setIsRestart] = useState(false);
+    const [seconds, setSeconds] = useState(0)
+    const [isRunning, setIsRunning] = useState(false)
+    const intervalRef = useRef<NodeJS.Timeout>();
+    const timeRef = useRef(0);
+    const isSpeechRef = useRef(false)
+    const cntRef = useRef(0)
+    const dataRef = useRef<RecipeGetResponseType>()
+    const { trigger, isMutating } = useSWRMutation("/api/message", postText)
+    const { data, error, isLoading } = useSWR(`/api/recipe/${useParams().id}`, fetcher)
 
-  
-    //音声認識処理
-    let is_speech = false
-    let cnt = 0
-    const recognize = () => {
-        const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition
-        const recognition = new SpeechRecognition()
-        recognition.lang = 'ja'
-        recognition.continuous = true
-
-        recognition.onerror = function() {
-            cnt = 0
-            if(!is_speech) recognize()
-        }
-        recognition.onsoundend = function() {
-            cnt = 0
-            recognize()
-        }
-
-        recognition.onresult = async (event) => {
-                const recogText = event.results[cnt][0].transcript;
-                console.log("認識された文字: "+recogText)
-
-                if (event.results[cnt].isFinal && (event.results[cnt][0].confidence > 0.8)) {
-                    const res = await trigger({ text: recogText })
-
-                    switch (res["command"]) {
-                        case "materials":
-                            //材料を読み上げる処理
-                            console.log("materials")
-                            for (let j=0; j < data.materials.length; j++) {
-                                handleReadText(data.materials[j].item)
-                                handleReadText(data.materials[j].serving)
-                            }
-                            break;
-                        case "next_step":
-                            console.log("next_step")
-                            //次の工程に進んでその工程を読み上げる処理
-                            handleNextStep()
-                            handleReadText(text)
-                            break;
-                        case "previous_step":
-                            console.log("previous_step")
-                            //前の工程に戻ってその工程を読み上げる処理
-                            if (order > 1) {
-                                handlePreviousStep()
-                                handleReadText(text)
-                            }
-                            break;
-                        case "read_agin":
-                            console.log("read_agin")
-                            //現在の工程をもう一度読み上げる処理
-                            handleReadText(text)
-                            break;
-                        /*case "timer_open":
-                            //タイマーを起動
-                            handleStart()
-                            break;
-                        */
-                        case "timer_start":
-                            console.log("timer_start")
-                            //タイマーをスタートする
-                            handleStart()
-                            break;
-                        case "timer_stop":
-                            console.log("timer_stop")
-                            //タイマーをストップする
-                            handleStop()
-                            break;
-                        /*
-                        case "timer_restart":
-                            //タイマーをリスタートする
-                            break;
-                        */
-                        case "no_action":
-                            console.log("no_action")
-                            //ノーアクション
-                            break;
-                        default:
-                            console.log("set_time")
-                            //タイマーの時間をセットする
-                            const setMinutes = res["command"].match(/[0-9]/g)
-                            handleRestart(setMinutes)
-                            handleRestart(3)
-                            break;
-                    }
-                    cnt = 0
-                    recognize()
-                } else {
-                    cnt++
-                    is_speech = true;
-                }
-        }
-        is_speech = false;
-        recognition.start();
-    }
 
     //音声読み上げる処理
     const handleReadText = (text: string) => {
@@ -151,55 +46,183 @@ export default function Cooking() {
     }
 
     //レシピステップ系の処理
-    const howtoSize: number = data.howto.length
-
     const handlePreviousStep = () => {
-        if (order > 1) {
-            setOrder((order) => order-1)
-            setText(data.howto[order-1].text)
+        if (orderRef.current > 1) {
+            orderRef.current--
+            setOrder(orderRef.current)
         }
     }
 
     const handleNextStep = () => {
-        if (order < howtoSize) {
-            setOrder((order) => order+1)
-            setText(data.howto[order-1].text)
+        if(!dataRef.current) throw new Error("data not found.")
+        if (orderRef.current < dataRef.current.howto.length) {
+            orderRef.current++
+            setOrder(orderRef.current)
         }
     }
 
     //タイマー系の処理
-    const handleStart = () => {
-        start()
+    const handleStart = async () => {
+        clearInterval(intervalRef.current)
+        setIsRunning(true);
+        intervalRef.current = setInterval(() => {
+            setSeconds(preSeconds => preSeconds - 1);
+        }, 1000);
     }
-
     const handleStop = () => {
-        pause()
+        clearInterval(intervalRef.current)
+        setIsRunning(false)
+    }
+    const handleRestart = async (minutes: number) => {
+        clearInterval(intervalRef.current)
+        setSeconds(minutes * 60)
+        setIsRunning(true);
+        intervalRef.current = setInterval(() => {
+            setSeconds(preSeconds => preSeconds - 1);
+        }, 1000);
     }
 
-    const handleRestart = (minutes: number) => {
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + minutes*60);
-        restart(time);
+    //音声認識処理
+    const recognize = async () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition()
+        recognition.lang = 'ja'
+        recognition.continuous = true
+    
+        recognition.onerror = function () {
+            cntRef.current = 0
+            if (!isSpeechRef.current) asyncRecog()
+        }
+        recognition.onsoundend = function () {
+            cntRef.current = 0
+            asyncRecog()
+        }
+    
+        recognition.onresult = async (event) => {
+            if(!dataRef.current) throw new Error("data not found.")
+            const recogText = event.results[cntRef.current][0].transcript;
+            console.log("認識された文字: " + recogText)
+    
+            if (event.results[cntRef.current].isFinal && (event.results[cntRef.current][0].confidence > 0.8)) {
+                const res = await trigger({ text: recogText })
+                cntRef.current = 0
+
+                switch (res["command"]) {
+                    case "materials":
+                        //材料を読み上げる処理
+                        console.log("materials")
+                        handleReadText("材料を読み上げます")
+                        for (let j = 0; j < dataRef.current.materials.length; j++) {
+                            console.log(dataRef.current.materials[j].item)
+                            handleReadText(dataRef.current.materials[j].item)
+                            handleReadText(dataRef.current.materials[j].serving)
+                        }
+                        break;
+                    case "next_step":
+                        console.log("next_step")
+                        //次の工程に進んでその工程を読み上げる処理
+                        if (orderRef.current < dataRef.current.howto.length) {
+                            handleReadText("次の工程に進んで工程を読み上げます")
+                            handleNextStep()
+                            handleReadText(dataRef.current.howto[orderRef.current-1].text)
+                        }
+                        break;
+                    case "previous_step":
+                        console.log("previous_step")
+                        //前の工程に戻ってその工程を読み上げる処理
+                        if (orderRef.current > 1) {
+                            handleReadText("前の工程に戻って工程を読み上げます")
+                            handlePreviousStep()
+                            handleReadText(dataRef.current.howto[orderRef.current-1].text)
+                        }
+                        break;
+                    case "read_again":
+                        console.log("read_again")
+                        //現在の工程をもう一度読み上げる処理
+                        handleReadText("現在の工程を読み上げます")
+                        handleReadText(dataRef.current.howto[orderRef.current-1].text)
+                        break;
+                    case "timer_stop":
+                        console.log("timer_stop")
+                        //タイマーをストップする
+                        handleStop()
+                        handleReadText("タイマーを停止します")
+                        break;
+                    case "timer_restart":
+                        handleStart()
+                        handleReadText("タイマーを再開します")
+                        break;
+                    case "no_action":
+                        console.log("no_action")
+                        //ノーアクション
+                        break;
+                    default:
+                        console.log("set_time")
+                        //タイマーの時間をセットする
+                        const setMinutes = Number(res["command"].match(/[0-9]/g))
+                        timeRef.current = setMinutes
+                        setIsRestart(true)
+                        handleReadText("タイマー" + setMinutes + "分セットします")
+                        break;
+                }
+                asyncRecog()
+            } else {
+                cntRef.current++
+                isSpeechRef.current = true;
+            }
+        }
+        isSpeechRef.current = false;
+        recognition.start();
     }
 
-    // recognize()
+    const asyncRestart = async () => {
+        if (isRestart) {
+            await handleRestart(timeRef.current)
+            setIsRestart(false)
+        }
+    }
+
+    const asyncRecog = async () => {
+        await recognize()
+    }
+
+    useEffect(() => {
+        asyncRestart()
+    }, [isRestart])
+
+    useEffect(() => {
+        asyncRecog()
+    }, [])
+
+    if ((seconds === 0) && isRunning) {
+        //タイマー終了
+        handleStop()
+        handleReadText("タイマー終了しました")
+    }
+    if (isLoading) {
+        return <div>isLoading...</div>
+    } else {
+        dataRef.current = data
+    }
+    if (error) return <div>Error</div>
     return (
         <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto] bg-cornsilk">
             <div className="grid-1 flex justify-center border-b border-xanthous">
-                <RecipeHowto howtoSize={howtoSize} order={order} text={text?text: data.howto[0].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
+                <RecipeHowto howtoSize={howtoSize} order={order} text={text?text: data.howto[order-1].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
             </div>
             <div className="grid-2 flex items-center justify-center border-b border-xanthous">
-                <RecipeMaterials materials={data?.materials}/>
+                <RecipeMaterials materials={data?.materials} />
             </div>
             <div className="grid-3 p-4">
                 <Timer handleStart={handleStart}
-                handleStop={handleStop}
-                handleRestart={handleRestart}
-                seconds={seconds}
-                minutes={minutes}
-                hours={hours}
-                isRunning={isRunning}
+                    handleStop={handleStop}
+                    handleRestart={handleRestart}
+                    seconds={seconds % 60}
+                    minutes={Math.floor(seconds / 60)}
+                    hours={Math.floor(seconds / 3600)}
+                    isRunning={isRunning}
                 />
+
             </div>
         </div>
     )
