@@ -15,6 +15,7 @@ const RecipeHowtoStepper = ({
     return (
         <div dataHsStepper={`{ "currentIndex": ${order} }`}>
             <ul className="relative flex flex-row gap-x-2">
+
               {completedOrders.map((completedOrder, index) => (
                 <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group success" dataHsStepperNavItem={`{ "index": ${index}, "isCompleted": true }`} key={index}>
                   <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
@@ -25,7 +26,6 @@ const RecipeHowtoStepper = ({
                       </svg>
                     </span>
                   </span>
-                  <div className="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-xanthous hs-stepper-completed:bg-xanthous"></div>
                 </li> 
               ))}
               
@@ -39,8 +39,8 @@ const RecipeHowtoStepper = ({
                     </svg>
                   </span>
                 </span>
-                <div className="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-xanthous hs-stepper-completed:bg-xanthous dark:bg-neutral-700 dark:hs-stepper-success:bg-xanthous dark:hs-stepper-completed:bg-teal-600"></div>
               </li>
+              
               {unfinishedOrders.map((unfinishedOrder, index) => (
                 <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group" dataHsStepperNavItem={`{ "index": ${index + order} }`} key={index}>
                   <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
@@ -51,7 +51,6 @@ const RecipeHowtoStepper = ({
                       </svg>
                     </span>
                   </span>
-                  <div className="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-xanthous hs-stepper-completed:bg-xanthous"></div>
                 </li>
               ))}
               
