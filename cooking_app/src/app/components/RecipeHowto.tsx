@@ -23,10 +23,10 @@ const RecipeHowto = ({
                 {text}
             </p>
             <div className="absolute bottom-0 mb-4 flex">
-                <button onClick={handlePreviousStep} type="button" className="mx-6 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-babypowder bg-selectiveyellow text-babypowder shadow-sm hover:bg-princetonorange focus:outline-none focus:bg-princetonorange disabled:opacity-50 disabled:pointer-events-none">
+                <button onClick={handlePreviousStep} type="button" className="mx-6 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-babypowder bg-princetonorange text-babypowder shadow-sm hover:bg-orangewheel focus:outline-none focus:bg-orangewheel disabled:opacity-50 disabled:pointer-events-none">
                 前の工程へ
                 </button>
-                <button onClick={handleNextStep} type="button" className="mx-6 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-babypowder bg-selectiveyellow text-babypowder shadow-sm hover:bg-princetonorange focus:outline-none focus:princetonorange disabled:opacity-50 disabled:pointer-events-none">
+                <button onClick={handleNextStep} type="button" className="mx-6 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-full border border-babypowder bg-princetonorange text-babypowder shadow-sm hover:bg-orangewheel focus:outline-none focus:orangewheel disabled:opacity-50 disabled:pointer-events-none">
                 次の工程へ
                 </button>
             </div>
