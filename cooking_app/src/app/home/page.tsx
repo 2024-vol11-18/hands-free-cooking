@@ -23,11 +23,11 @@ export default function Home() {
     }
     if (isMutating) {
         return (
-          <div className="flex flex-col justify-center items-center min-h-screen">
-            <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+          <div className="flex flex-col justify-center items-center min-h-screen bg-cornsilk">
+            <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent rounded-full text-selectiveyellow" role="status" aria-label="loading">
               <span className="sr-only">Loading...</span>
             </div>
-            <p className="mt-2 text-cyan-500 dark:text-cyan-300">Loading...</p>
+            <p className="mt-2 text-xanthous">Loading...</p>
           </div>
         )
       }
