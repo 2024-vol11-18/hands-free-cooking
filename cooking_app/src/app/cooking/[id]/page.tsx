@@ -37,12 +37,13 @@ export default function Cooking() {
     const dataRef = useRef<RecipeGetResponseType>()
     const { trigger, isMutating } = useSWRMutation("/api/message", postText)
     const { data, error, isLoading } = useSWR(`/api/recipe/${useParams().id}`, fetcher)
-
+    const synthRef = useRef<SpeechSynthesis>()
 
     //音声読み上げる処理
     const handleReadText = (text: string) => {
+        if(!synthRef.current) throw new Error("synthRef not found.")
         const uttr = new SpeechSynthesisUtterance(text)
-        speechSynthesis.speak(uttr)
+        synthRef.current.speak(uttr)
     }
 
     //レシピステップ系の処理
@@ -100,10 +101,16 @@ export default function Cooking() {
     
         recognition.onresult = async (event) => {
             if(!dataRef.current) throw new Error("data not found.")
+            if(!synthRef.current) throw new Error("synthRef not found.")
             const recogText = event.results[cntRef.current][0].transcript;
             console.log("認識された文字: " + recogText)
-    
-            if (event.results[cntRef.current].isFinal && (event.results[cntRef.current][0].confidence > 0.8)) {
+            console.log("sysnthRef: "+synthRef.current.speaking)
+            if (
+                event.results[cntRef.current].isFinal &&
+                (event.results[cntRef.current][0].confidence > 0.8) &&
+                (!synthRef.current.speaking)
+            ) {
+                console.log("speaking through")
                 const res = await trigger({ text: recogText })
                 cntRef.current = 0
 
@@ -191,7 +198,8 @@ export default function Cooking() {
     }, [isRestart])
 
     useEffect(() => {
-        asyncRecog()
+        asyncRecog(),
+        synthRef.current = window.speechSynthesis
     }, [])
 
     if ((seconds === 0) && isRunning) {
