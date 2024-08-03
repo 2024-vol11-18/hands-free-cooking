@@ -25,7 +25,7 @@ export default function Home() {
     const handleChangeSearchText = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchText(event.target.value)
     }
-    
+
 
     return (
     <div>
