@@ -19,7 +19,7 @@ const RecipeHowto = ({
             <span className="inline-flex items-center gap-x-1.5 py-1.5 px-4 rounded-full text-lg font-medium bg-xanthous text-princetonorange">
                 {order}
             </span>
-            <p className="text-lg mx-8 my-4 text-smokyblack">
+            <p className="text-lg mx-5 my-3 p-3 text-smokyblack bg-babypowder rounded-xl">
                 {text}
             </p>
             <div className="absolute bottom-0 mb-4 flex">
