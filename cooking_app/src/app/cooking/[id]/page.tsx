@@ -214,11 +214,11 @@ export default function Cooking() {
     }
     if (error) return <div>Error</div>
     return (
-        <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto]">
-            <div className="grid-1 flex justify-center border-b border-gray-300">
-                <RecipeHowto order={order} text={data.howto[order-1].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep} />
+        <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto] bg-cornsilk">
+            <div className="grid-1 flex justify-center border-b border-xanthous">
+                <RecipeHowto howtoSize={data.howto.length} order={order} text={data.howto[order-1].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
             </div>
-            <div className="grid-2 flex items-center justify-center border-b border-gray-300">
+            <div className="grid-2 flex items-center justify-center border-b border-xanthous">
                 <RecipeMaterials materials={data?.materials} />
             </div>
             <div className="grid-3 p-4">
