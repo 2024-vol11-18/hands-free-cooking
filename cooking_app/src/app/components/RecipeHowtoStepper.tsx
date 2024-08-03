@@ -10,55 +10,51 @@ const RecipeHowtoStepper = ({
 }) => {
 
   const completedOrders: number[] = Array.from({ length: order - 1 }, (_, i) => i + 1);
-
+  const unfinishedOrders: number[] = Array.from({ length: howtoSize - order }, (_, i) => i + 2);
 
     return (
-        <div data-hs-stepper={`{ "currentIndex": ${order} }`}>
-            <ul class="relative flex flex-row gap-x-2">
-              <li class="flex items-center gap-x-2 shrink basis-0 flex-1 group success" data-hs-stepper-nav-item='{ "index": 1, "isCompleted": true }'>
-                <span class="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
-                  <span class="size-7 flex justify-center items-center shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full group-focus:bg-gray-200 hs-stepper-active:bg-blue-600 hs-stepper-active:text-white hs-stepper-success:bg-blue-600 hs-stepper-success:text-white hs-stepper-completed:bg-teal-500 hs-stepper-completed:group-focus:bg-teal-600 dark:bg-neutral-700 dark:text-white dark:group-focus:bg-gray-600 dark:hs-stepper-active:bg-blue-500 dark:hs-stepper-success:bg-blue-500 dark:hs-stepper-completed:bg-teal-500 dark:hs-stepper-completed:group-focus:bg-teal-600">
-                    <span class="hs-stepper-success:hidden hs-stepper-completed:hidden">1</span>
-                    <svg class="hidden shrink-0 size-3 hs-stepper-success:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
+        <div dataHsStepper={`{ "currentIndex": ${order} }`}>
+            <ul className="relative flex flex-row gap-x-2">
+              {completedOrders.map((completedOrder, index) => (
+                <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group success" data-hs-stepper-nav-item={`{ "index": ${index}, "isCompleted": true }`}>
+                  <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
+                    <span className="size-7 flex justify-center items-center shrink-0 bg-peach font-medium text-babypowder rounded-full hs-stepper-active:bg-xanthoussaturated hs-stepper-active:text-babypowder hs-stepper-success:bg-xanthous hs-stepper-success:text-babypowder hs-stepper-completed:bg-xanthous">
+                      <span className="hs-stepper-success:hidden hs-stepper-completed:hidden">{completedOrder}</span>
+                      <svg className="hidden shrink-0 size-3 hs-stepper-success:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
                   </span>
-                  <span class="ms-2 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    Step
-                  </span>
-                </span>
-                <div class="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-blue-600 hs-stepper-completed:bg-teal-600 dark:bg-neutral-700 dark:hs-stepper-success:bg-blue-600 dark:hs-stepper-completed:bg-teal-600"></div>
-              </li>
+                  <div className="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-xanthous hs-stepper-completed:bg-xanthous"></div>
+                </li> 
+              ))}
+              
           
-              <li class="flex items-center gap-x-2 shrink basis-0 flex-1 group active" data-hs-stepper-nav-item='{ "index": 2 }'>
-                <span class="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
-                  <span class="size-7 flex justify-center items-center shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full group-focus:bg-gray-200 hs-stepper-active:bg-blue-600 hs-stepper-active:text-white hs-stepper-success:bg-blue-600 hs-stepper-success:text-white hs-stepper-completed:bg-teal-500 hs-stepper-completed:group-focus:bg-teal-600 dark:bg-neutral-700 dark:text-white dark:group-focus:bg-gray-600 dark:hs-stepper-active:bg-blue-500 dark:hs-stepper-success:bg-blue-500 dark:hs-stepper-completed:bg-teal-500 dark:hs-stepper-completed:group-focus:bg-teal-600">
-                    <span class="hs-stepper-success:hidden hs-stepper-completed:hidden">2</span>
-                    <svg class="hidden shrink-0 size-3 hs-stepper-success:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group active" data-hs-stepper-nav-item={`{ "index": ${order} }`}>
+                <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
+                  <span className="size-7 flex justify-center items-center shrink-0 bg-peach font-medium text-babypowder rounded-full hs-stepper-active:bg-xanthoussaturated hs-stepper-active:text-babypowder hs-stepper-success:bg-xanthous hs-stepper-success:text-babypowder hs-stepper-completed:bg-xanthous">
+                    <span className="hs-stepper-success:hidden hs-stepper-completed:hidden">{order}</span>
+                    <svg className="hidden shrink-0 size-3 hs-stepper-success:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                   </span>
-                  <span class="ms-2 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    Step
-                  </span>
                 </span>
-                <div class="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-blue-600 hs-stepper-completed:bg-teal-600 dark:bg-neutral-700 dark:hs-stepper-success:bg-blue-600 dark:hs-stepper-completed:bg-teal-600"></div>
+                <div className="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-xanthous hs-stepper-completed:bg-xanthous dark:bg-neutral-700 dark:hs-stepper-success:bg-xanthous dark:hs-stepper-completed:bg-teal-600"></div>
               </li>
-          
-              <li class="flex items-center gap-x-2 shrink basis-0 flex-1 group" data-hs-stepper-nav-item='{ "index": 3 }'>
-                <span class="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
-                  <span class="size-7 flex justify-center items-center shrink-0 bg-gray-100 font-medium text-gray-800 rounded-full group-focus:bg-gray-200 hs-stepper-active:bg-blue-600 hs-stepper-active:text-white hs-stepper-success:bg-blue-600 hs-stepper-success:text-white hs-stepper-completed:bg-teal-500 hs-stepper-completed:group-focus:bg-teal-600 dark:bg-neutral-700 dark:text-white dark:group-focus:bg-gray-600 dark:hs-stepper-active:bg-blue-500 dark:hs-stepper-success:bg-blue-500 dark:hs-stepper-completed:bg-teal-500 dark:hs-stepper-completed:group-focus:bg-teal-600">
-                    <span class="hs-stepper-success:hidden hs-stepper-completed:hidden">3</span>
-                    <svg class="hidden shrink-0 size-3 hs-stepper-success:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
+              {unfinishedOrders.map((unfinishedOrder, index) => (
+                <li className="flex items-center gap-x-2 shrink basis-0 flex-1 group" data-hs-stepper-nav-item={`{ "index": ${index + order} }`}>
+                  <span className="min-w-7 min-h-7 group inline-flex items-center text-xs align-middle">
+                    <span className="size-7 flex justify-center items-center shrink-0 bg-peach font-medium text-babypowder rounded-full group-focus:bg-gray-200 hs-stepper-active:bg-xanthoussaturated hs-stepper-active:text-babypowder hs-stepper-success:bg-xanthous hs-stepper-success:text-babypowder hs-stepper-completed:bg-xanthous">
+                      <span className="hs-stepper-success:hidden hs-stepper-completed:hidden">{unfinishedOrder}</span>
+                      <svg className="hidden shrink-0 size-3 hs-stepper-success:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
                   </span>
-                  <span class="ms-2 text-sm font-medium text-gray-800 dark:text-neutral-200">
-                    Step
-                  </span>
-                </span>
-                <div class="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-blue-600 hs-stepper-completed:bg-teal-600 dark:bg-neutral-700 dark:hs-stepper-success:bg-blue-600 dark:hs-stepper-completed:bg-teal-600"></div>
-              </li>
+                  <div className="w-full h-px flex-1 bg-gray-200 group-last:hidden hs-stepper-success:bg-xanthous hs-stepper-completed:bg-xanthous"></div>
+                </li>
+              ))}
+              
             </ul>
         </div>
     )
