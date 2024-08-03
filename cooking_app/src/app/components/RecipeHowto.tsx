@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import RecipeHowtoStepper from './RecipeHowtoStepper.tsx'
 
 const RecipeHowto = ({
     howtoSize,
@@ -6,9 +7,9 @@ const RecipeHowto = ({
     text,
     handlePreviousStep,
     handleNextStep
-}: { 
+}: {
     howtoSize: number,
-    order: number, 
+    order: number,
     text: string,
     handlePreviousStep: any,
     handleNextStep: any
@@ -16,9 +17,10 @@ const RecipeHowto = ({
 
     return (
         <div className="relative flex flex-col items-center mt-4">
-            <span className="inline-flex items-center gap-x-1.5 py-1.5 px-4 rounded-full text-lg font-medium bg-xanthous text-princetonorange">
+            <RecipeHowtoStepper howtoSize={howtoSize} order={order}></RecipeHowtoStepper>
+            {/* <span className="inline-flex items-center gap-x-1.5 py-1.5 px-4 rounded-full text-lg font-medium bg-xanthous text-princetonorange">
                 {order}
-            </span>
+            </span> */}
             <p className="text-lg mx-5 my-3 p-3 text-smokyblack bg-babypowder rounded-xl">
                 {text}
             </p>
