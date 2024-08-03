@@ -200,7 +200,14 @@ export default function Cooking() {
         handleReadText("タイマー終了しました")
     }
     if (isLoading) {
-        return <div>isLoading...</div>
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen bg-cornsilk">
+                <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent rounded-full text-selectiveyellow" role="status" aria-label="loading">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                <p className="mt-2 text-xanthous">Loading...</p>
+            </div>
+        )
     } else {
         dataRef.current = data
     }
