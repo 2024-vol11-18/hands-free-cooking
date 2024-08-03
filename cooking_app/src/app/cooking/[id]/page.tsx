@@ -53,6 +53,14 @@ export default function Cooking() {
         }
     }
 
+    let howtoSize: number = 0
+
+    if(dataRef.current) {
+        howtoSize = dataRef.current.howto.length
+    } else {
+        throw new Error("data not found.")
+    }
+
     const handleNextStep = () => {
         if(!dataRef.current) throw new Error("data not found.")
         if (orderRef.current < dataRef.current.howto.length) {
