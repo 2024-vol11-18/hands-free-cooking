@@ -46,10 +46,10 @@ const RecipePage = ({ materials , howto }: {
                     <tbody className="divide-y divide-gray-200">
                         {howto?.map((howto: { order: number; text: string }, index: number) => (
                             <tr key={index}>
-                                <td className="px-6 py-2 whitespace-nowrap break-words text-sm font-medium">
+                                <td className="px-6 py-2 whitespace-normal break-words text-sm font-medium">
                                     {index + 1}
                                 </td>
-                                <td className="px-6 py-2 whitespace-nowrap break-words text-sm font-medium">
+                                <td className="px-6 py-2 whitespace-normal break-words text-sm font-medium">
                                     {howto.text}
                                 </td>
                             </tr>
