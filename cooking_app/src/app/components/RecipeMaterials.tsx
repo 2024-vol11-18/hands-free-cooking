@@ -9,7 +9,7 @@ const RecipeMaterials = ({ materials }: {
 }) => {
     return (
         <div className="w-full">
-            <div className="flex flex-col max-h-[250px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700">
+            <div className="flex flex-col max-h-[250px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700">
                 <div className="-m-1.5">
                     <div className="p-1.5 min-w-full inline-block align-middle">
                         <div className="overflow-hidden">
