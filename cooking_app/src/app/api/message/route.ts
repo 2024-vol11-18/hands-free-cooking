@@ -5,9 +5,7 @@ import { GetOpenAIClient, CreateChatCompletion } from '../createChat';
 export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const isDebug = process.env.DEBUG
-    console.log(isDebug)
     if (isDebug === "false") {
-        console.log(isDebug)
         const body: MessagePostRequestType = await request.json()
         //TODO: OpenAIクライアントをstaticに保持する？tokenの期限が切れた時だけ更新
         const openai = await GetOpenAIClient()
@@ -39,7 +37,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
     } else {
         //mock
-        return NextResponse.json({command: "set_time_3_min"}, { status: 200 }) 
+        return NextResponse.json({command: "materials"}, { status: 200 }) 
     }
 }
 

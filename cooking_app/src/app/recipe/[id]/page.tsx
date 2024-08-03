@@ -19,8 +19,17 @@ export default function Recipe() {
     const { data, error } = useSWR(`/api/recipe/${useParams().id}`, fetcher);
 
     if (error) return <p>データの取得に失敗しました</p>;
-    if (!data) return <p>データを読み込み中...</p>;
-    
+    if (!data) {
+        return (
+            <div className="flex flex-col justify-center items-center min-h-screen bg-cornsilk">
+                <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent rounded-full text-selectiveyellow" role="status" aria-label="loading">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                <p className="mt-2 text-xanthous">Loading...</p>
+            </div>
+        )
+    }
+
     return (
         <div>
             <h1>{data.title}</h1>
