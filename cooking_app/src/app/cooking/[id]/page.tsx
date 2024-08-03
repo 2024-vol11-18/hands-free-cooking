@@ -54,12 +54,6 @@ export default function Cooking() {
         }
     }
 
-    let howtoSize: number = 0
-
-    if(dataRef.current) {
-        howtoSize = dataRef.current.howto.length
-    }
-
     const handleNextStep = () => {
         if(!dataRef.current) throw new Error("data not found.")
         if (orderRef.current < dataRef.current.howto.length) {
@@ -222,7 +216,7 @@ export default function Cooking() {
     return (
         <div className="grid grid-col cooking-height grid-rows-[1fr_1fr_auto] bg-cornsilk">
             <div className="grid-1 flex justify-center border-b border-xanthous">
-                <RecipeHowto howtoSize={howtoSize} order={order} text={text?text: data.howto[order-1].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
+                <RecipeHowto howtoSize={data.howto.length} order={order} text={data.howto[order-1].text} handlePreviousStep={handlePreviousStep} handleNextStep={handleNextStep}/>
             </div>
             <div className="grid-2 flex items-center justify-center border-b border-xanthous">
                 <RecipeMaterials materials={data?.materials} />
