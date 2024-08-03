@@ -32,22 +32,35 @@ export default function Recipe() {
     }
 
     return (
-        <div>
-            <h1>{data.title}</h1>
-            <p>{data.description}</p>
-            <p>{data.time}</p>
-            <p>{data.cost}</p>
-            <p>{data.comment}</p>
+        <div className="flex flex-col justify-center items-start bg-white mx-auto my-4 p-3 w-5/6 rounded-lg">
+            <div className="mx-auto">
+                <ul className="p-3 max-w-xs flex flex-col divide-y divide-gray-200">
+                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-md font-medium text-gray-800">
+                        {data.title}
+                    </li>
+                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium text-gray-800">
+                        時間: {data.time}
+                    </li>
+                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium text-gray-800">
+                        費用: {data.cost}
+                    </li>
+                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium text-gray-800">
+                        {data.comment}
+                    </li>
+                </ul>
+            </div>
+            <RecipeMaterials materials={data.materials}></RecipeMaterials>
             <div className="flex flex-col h-full w-full p-4">
                 <RecipePage materials={data.materials} howto={data.howto}/>
             </div>
+            
 
             <a
              href={`/cooking/${pathParam}`}
-             className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:hover:text-white dark:focus:bg-white/20 dark:focus:text-white"
+             className="py-3 px-4 mx-auto inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:hover:text-white dark:focus:bg-white/20 dark:focus:text-white"
             >
-                <button type="button">
-                    Cooking Start!
+                <button type="button" className="py-3 px-4 inline-flex items-center gap-x-2 text-md font-bold rounded-lg border border-gray-200 bg-princetonorange text-babypowder shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
+                    作る！
                 </button>
             </a>
         </div>
