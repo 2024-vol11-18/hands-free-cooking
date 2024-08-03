@@ -41,6 +41,7 @@ export default function Home() {
     <div>
       <div className="max-w-sm space-y-3 m-8">
         <div>
+          <form>
           <label htmlFor="hs-leading-button-add-on-with-icon" className="sr-only">Label</label>
           <div className="flex rounded-lg shadow-sm">
             <button onClick={handleSearchSubmit} type="button" className="w-[2.875rem] h-[2.875rem] shrink-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-s-md border border-transparent bg-orange-400 text-white hover:bg-orange-500 focus:outline-none focus:bg-orange-500 disabled:opacity-50 disabled:pointer-events-none">
@@ -52,6 +53,7 @@ export default function Home() {
             <input onChange={(event) => handleChangeSearchText(event)} value={searchText} type="text" id="hs-leading-button-add-on-with-icon" name="hs-leading-button-add-on-with-icon" placeholder="検索したいキーワードを入力"
             className="py-3 px-4 block w-full border outline-none border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 focus:border-orange-400 focus:ring-orange-400 disabled:opacity-50 disabled:pointer-events-none"/>
           </div>
+          </form>
         </div>
       </div>
 
