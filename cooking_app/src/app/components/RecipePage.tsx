@@ -31,7 +31,10 @@ const RecipePage = ({ materials , howto }: {
                                         </tr>
                                     ))}
                                 </tbody>
-
+                            </table>
+                        </div>
+                        <div className="border rounded-lg shadow overflow-hidden dark:border-neutral-700 dark:shadow-gray-900">
+                            <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                                 <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
                                     {howto?.map((howto: { order: number; text: string }, index: number) => (
                                         <tr key={index}>
