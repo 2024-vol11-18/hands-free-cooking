@@ -71,13 +71,7 @@ export default function Cooking() {
                 console.log("認識された文字: "+recogText)
 
                 if (event.results[cnt].isFinal && (event.results[cnt][0].confidence > 0.8)) {
-                    const past_commands_ = localStorage.getItem("past_commands")
-                    let past_commands : Array<string> = []
-                    if(past_commands_ != null){ past_commands = past_commands_.split(",") }
-
-                    const res = await trigger({ text: recogText, past_commands: past_commands })
-                    if(past_commands.length > 5){ past_commands.shift() }
-                    localStorage.setItem("past_commands", past_commands.concat(res["command"]).join(","))
+                    const res = await trigger({ text: recogText })
 
                     switch (res["command"]) {
                         case "materials":

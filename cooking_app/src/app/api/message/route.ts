@@ -9,7 +9,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const body: MessagePostRequestType = await request.json()
         //TODO: OpenAIクライアントをstaticに保持する？tokenの期限が切れた時だけ更新
         const openai = await GetOpenAIClient()
-        const past_commands: Array<string> = body.past_commands
         const prompt = `
         あなたは与えられたテキストが期待している行動を答えるAIです．
         あなたにテキストを送るのは，調理中の人間です．
@@ -23,7 +22,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         timer_stop: タイマーをストップする,
         timer_restart: タイマーをリスタートする,
         no_action: 何もしない
-        過去行われた行動は「${past_commands.join(" -> ")}」です．
         あなたに送られたテキストは「${body.text}」です．
         あなたは行動を示す「キーワード」のみを回答しなさい．
         `
@@ -35,7 +33,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             if (!validateResponse(response)) {
                 return NextResponse.json({error: "response is invalid"}, {status: 500})
             }
-            console.log(`past_commands:${past_commands}, response:${response}`)
             return NextResponse.json({command: response}, {status: 200})   
         }
     } else {
@@ -47,7 +44,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 type CheckFunction = (response: string) => boolean
 
 function validateResponse(response: string): boolean {
-    const static_keyword_set = new Set(["materials", "next_step", "previous_step", "read_again", "timer_start", "timer_stop", "timer_restart", "no_action"])
+    const static_keyword_set = new Set(["materials", "next_step", "previous_step", "read_again", "timer_stop", "timer_restart", "no_action"])
 
     // set_time_?_min (タイマーを？分セットする)の形式かどうかチェック．?(数値)は任意の数値にしている．00001のような値も許容している．
     const check_set_time_min : CheckFunction = (response) => {return response.match(/set_time_[0-9]+_min/) != null}
