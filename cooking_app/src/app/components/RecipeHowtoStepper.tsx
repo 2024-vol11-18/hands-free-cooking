@@ -9,7 +9,14 @@ const RecipeHowtoStepper = ({
     order: number,
 }) => {
 
-  const completedOrders: number[] = Array.from({ length: order - 1 }, (_, i) => i + 1);
+  let completedOrders: number[] 
+
+  if (order == 1) {
+    completedOrders = [];
+  } else {
+    completedOrders = Array.from({ length: order - 1 }, (_, i) => i + 1);
+  }
+  
   const unfinishedOrders: number[] = Array.from({ length: howtoSize - order }, (_, i) => i + 2);
 
     return (

@@ -58,6 +58,7 @@ export default function Home() {
       </div>
 
       <RecipeList  recipe_data={recipeData}/>
+      <div className="h-0.5"></div>
     </div>
     )
 }
