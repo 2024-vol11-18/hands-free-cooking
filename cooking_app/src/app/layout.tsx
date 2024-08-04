@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full bg-cornsilk">
-      <body className={inter.className}>
+      <body className={`${inter.className} h-full`}>
       <header className="flex flex-wrap shadow-sm sm:justify-start sm:flex-nowrap w-full bg-princetonorange text-sm py-3">
         <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between">
           <a className="sm:order-1 flex-none text-xl font-semibold text-white focus:outline-none focus:opacity-80" href="/home">コエレシピ</a>

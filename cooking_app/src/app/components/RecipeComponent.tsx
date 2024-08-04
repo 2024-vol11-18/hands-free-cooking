@@ -8,7 +8,7 @@ export default function RecipeComponent({ recipe }: {recipe: RecipesType}) {
         <>
             <div className="m-8 flex flex-col bg-white border shadow-sm rounded-xl">
                 <div className="p-4 md:p-10">
-                    <h3 className="text-lg font-bold text-gray-800 dark:text-white">
+                    <h3 className="text-lg font-bold text-gray-800">
                     {recipe.title}
                     </h3>
                     <p className="mt-2 text-gray-500 dark:text-neutral-400">
