@@ -7,6 +7,7 @@ import RecipeList from "@/app/components/RecipeList";
 import RecipeHowto from "@/app/components/RecipeHowto";
 import RecipeMaterials from "@/app/components/RecipeMaterials";
 import RecipePage from "@/app/components/RecipePage";
+import { RecipeGetResponseType } from "../../api/apiType";
 
 // データ取得用のフェッチャー関数
 const fetcher = async (url: string) => {
@@ -16,7 +17,7 @@ const fetcher = async (url: string) => {
 
 export default function Recipe() {
     // SWRフックを使って、指定されたレシピIDからデータを取得
-    const { data, error } = useSWR(`/api/recipe/${useParams().id}`, fetcher);
+    const { data , error }:{data: RecipeGetResponseType, error: any} = useSWR(`/api/recipe/${useParams().id}`, fetcher);
     const pathParam = useParams().id
 
     if (error) return <p>データの取得に失敗しました</p>;
@@ -33,25 +34,8 @@ export default function Recipe() {
 
     return (
         <div className="flex flex-col justify-center items-start bg-white mx-auto my-4 p-3 w-5/6 h-hull rounded-lg">
-            <div className="mx-auto">
-                <ul className="p-3 max-w-xs flex flex-col divide-y divide-gray-200">
-                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-md font-medium text-gray-800">
-                        {data.title}
-                    </li>
-                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium text-gray-800">
-                        時間: {data.time}
-                    </li>
-                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium text-gray-800">
-                        費用: {data.cost}
-                    </li>
-                    <li className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium text-gray-800">
-                        {data.comment}
-                    </li>
-                </ul>
-            </div>
-            <RecipeMaterials materials={data.materials}></RecipeMaterials>
             <div className="flex flex-col h-full w-full p-4">
-                <RecipePage materials={data.materials} howto={data.howto}/>
+                <RecipePage data={data} />
             </div>
             
 
